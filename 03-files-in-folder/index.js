@@ -9,7 +9,7 @@ fs.readdir(dirname, (error, files) => {
     fs.stat(path.join(dirname, file), (error, stats) => {
       if (error) return console.error(error.message);
       if (stats.isFile()) {
-        console.log(`${path.parse(file).name} - ${path.extname(file)} - ${stats.size}b`);
+        console.log(`${path.parse(file).name} - ${path.extname(file).slice(1)} - ${stats.size}b`);
       }
     });
   }
