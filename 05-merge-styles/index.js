@@ -12,11 +12,13 @@ fs.readdir(sourceDirname, {withFileTypes: true}, (error, dirents) => {
       filenames.push(path.join(sourceDirname, dirent.name));
     }
   }
-  filenames.forEach((filename) => {
-    fs.readFile(filename, 'utf-8', (error, data) => {
-      if (error) return console.error(error.message);
-      fs.appendFile(targetFilename, data, (error) => {
+  fs.rm(targetFilename, () => {  
+    filenames.forEach((filename) => {
+      fs.readFile(filename, 'utf-8', (error, data) => {
         if (error) return console.error(error.message);
+        fs.appendFile(targetFilename, data, (error) => {
+          if (error) return console.error(error.message);
+        });
       });
     });
   });
