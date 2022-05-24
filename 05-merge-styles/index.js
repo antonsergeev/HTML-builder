@@ -1,11 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// const sourceDirname = path.join(__dirname, 'styles');
-// const targetFilename = path.join(__dirname, 'project-dist', 'bundle.css');
-
-const sourceDirname = path.join(__dirname, 'test-files', 'styles');
-const targetFilename = path.join(__dirname, 'test-files', 'bundle.css');
+const sourceDirname = path.join(__dirname, 'styles');
+const targetFilename = path.join(__dirname, 'project-dist', 'bundle.css');
 
 fs.readdir(sourceDirname, {withFileTypes: true}, (error, dirents) => {
   if (error) return console.error(error.message);

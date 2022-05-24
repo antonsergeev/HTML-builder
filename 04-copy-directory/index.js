@@ -4,8 +4,6 @@ const path = require('path');
 const sourceDirname = path.join(__dirname, 'files');
 const targetDirname = path.join(__dirname, 'files-copy');
 
-fs.rm(targetDirname, {recursive: true}, () => {});
-
 function getDirnames(dirname, callback) {
   fs.readdir(dirname, {withFileTypes: true}, (error, dirents) => {
     if (error) return console.error(error.message);
@@ -22,14 +20,16 @@ function getDirnames(dirname, callback) {
   });
 }
 
-getDirnames(sourceDirname, (error, filenames) => {
-  if (error) return console.error(error.message);
-  filenames.forEach(filename => {
-    const targetFilenameAbsolutePath = path.join(__dirname, 'files-copy', filename.slice(sourceDirname.length));
-    fs.mkdir(path.dirname(targetFilenameAbsolutePath), {recursive: true}, (error) => {
-      if (error) return console.error(error.message);
-      fs.copyFile(filename, targetFilenameAbsolutePath, (error) => {
+fs.rm(targetDirname, {recursive: true}, () => {
+  getDirnames(sourceDirname, (error, filenames) => {
+    if (error) return console.error(error.message);
+    filenames.forEach(filename => {
+      const targetFilenameAbsolutePath = path.join(targetDirname, filename.slice(sourceDirname.length));
+      fs.mkdir(path.dirname(targetFilenameAbsolutePath), {recursive: true}, (error) => {
         if (error) return console.error(error.message);
+        fs.copyFile(filename, targetFilenameAbsolutePath, (error) => {
+          if (error) return console.error(error.message);
+        });
       });
     });
   });
